@@ -30,6 +30,8 @@ jobs:
           - "7.4"
           - "8.0"
           - "8.1"
+          - "8.2"
+          - "8.3"
         dependencies: [locked]
         os: [ubuntu-latest]
         experimental: [false]
@@ -42,30 +44,30 @@ jobs:
             dependencies: lowest
             os: ubuntu-latest
             experimental: false
-          - php-version: "8.1"
+          - php-version: "8.3"
             dependencies: highest
             os: ubuntu-latest
             experimental: false
-          - php-version: "8.1"
+          - php-version: "8.3"
             os: windows-latest
             dependencies: locked
             experimental: false
-          - php-version: "8.1"
+          - php-version: "8.3"
             os: macos-latest
             dependencies: locked
             experimental: false
-          - php-version: "8.2"
+          - php-version: "8.4"
             dependencies: lowest-ignore
             os: ubuntu-latest
             experimental: true
-          - php-version: "8.2"
+          - php-version: "8.4"
             dependencies: highest-ignore
             os: ubuntu-latest
             experimental: true
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
@@ -78,7 +80,9 @@ jobs:
 
       - name: "Handle lowest dependencies update"
         if: "contains(matrix.dependencies, 'lowest')"
-        run: "echo \"COMPOSER_UPDATE_FLAGS=$COMPOSER_UPDATE_FLAGS --prefer-lowest\" >> $GITHUB_ENV"
+        run: |
+          echo "COMPOSER_UPDATE_FLAGS=$COMPOSER_UPDATE_FLAGS --prefer-lowest" >> $GITHUB_ENV
+          echo "COMPOSER_LOWEST_DEPS_TEST=1" >> $GITHUB_ENV
 
       - name: "Handle ignore-platform-reqs dependencies update"
         if: "contains(matrix.dependencies, 'ignore')"
@@ -136,7 +140,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
 
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
