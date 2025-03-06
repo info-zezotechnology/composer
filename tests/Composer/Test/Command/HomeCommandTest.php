@@ -54,10 +54,10 @@ class HomeCommandTest extends TestCase
         $appTester = $this->getApplicationTester();
         $appTester->run(array_merge(['command' => 'home', '--show' => true], $command));
 
-        $this->assertSame(trim($expected), trim($appTester->getDisplay(true)));
+        self::assertSame(trim($expected), trim($appTester->getDisplay(true)));
     }
 
-    public function useCaseProvider(): Generator
+    public static function useCaseProvider(): Generator
     {
         yield 'Invalid or missing repository URL' => [
             [
